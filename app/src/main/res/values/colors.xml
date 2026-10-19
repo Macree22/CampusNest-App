@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="primary">#4F46E5</color> <!-- Indigo Blue -->
+    <color name="primary_light">#EEF2FF</color>
+    <color name="background">#F8FAFC</color> <!-- Very light slate -->
+    <color name="text_main">#0F172A</color>
+    <color name="text_sub">#64748B</color>
+    <color name="white">#FFFFFF</color>
+    <color name="red">#EF4444</color>
+</resources>
