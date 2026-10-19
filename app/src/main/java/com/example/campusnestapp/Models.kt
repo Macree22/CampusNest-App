@@ -20,3 +20,15 @@ data class ListingResponse(
     val status: String,
     val data: List<Listing>
 )
+
+// Apply Models
+data class ApplyRequest(
+    val listingID: Int,
+    val moveInDate: String
+)
+
+data class BasicResponse(
+    val status: String,
+    val message: String,
+    val reference: String? = null
+)
