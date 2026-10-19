@@ -90,7 +90,4 @@ Use these credentials to evaluate the different user roles within the system:
 *   **API:** Retrofit 2 with GSON converter and OkHttp logging interceptors.
 *   **Auth:** Google Identity Services (`googleid`) & Firebase Auth.
 
----
 
-**Developed for CampusNest - Task 2 Submission.**
-**Author:** [Your Name / Student Number]
