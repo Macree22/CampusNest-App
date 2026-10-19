@@ -29,4 +29,15 @@ interface ApiService {
     suspend fun getMyApplications(
         @Header("Authorization") token: String
     ): Response<ApplicationResponse>
+
+    // 5. Fetch the logged-in student's profile
+    @GET("profile.php")
+    suspend fun getProfile(@Header("Authorization") token: String): Response<ProfileResponse>
+
+    // 6. Update the logged-in student's profile
+    @POST("update_profile.php")
+    suspend fun updateProfile(
+        @Header("Authorization") token: String,
+        @Body request: UpdateProfileRequest
+    ): Response<BasicResponse>
 }

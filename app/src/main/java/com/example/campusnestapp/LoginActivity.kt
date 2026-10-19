@@ -9,6 +9,7 @@ import android.widget.Button
 import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.textfield.TextInputEditText
 import kotlinx.coroutines.launch
@@ -21,21 +22,30 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var progressBar: ProgressBar
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        // 1. Apply Dark Mode setting BEFORE the UI loads
+        val sharedPref = getSharedPreferences("CampusNestPrefs", Context.MODE_PRIVATE)
+        if (sharedPref.getBoolean("IS_DARK_MODE", false)) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+        } else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+        }
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
+        // 2. Link UI components
         etEmail = findViewById(R.id.etEmail)
         etPassword = findViewById(R.id.etPassword)
         btnLogin = findViewById(R.id.btnLogin)
         progressBar = findViewById(R.id.progressBar)
 
-        // Check if the user is already logged in
-        val sharedPref = getSharedPreferences("CampusNestPrefs", Context.MODE_PRIVATE)
+        // 3. Check if the user is already logged in
         if (sharedPref.contains("API_TOKEN")) {
             goToMainActivity()
             return
         }
 
+        // 4. Set click listener
         btnLogin.setOnClickListener {
             val email = etEmail.text.toString().trim()
             val password = etPassword.text.toString().trim()
@@ -75,17 +85,15 @@ class LoginActivity : AppCompatActivity() {
                     goToMainActivity()
 
                 } else {
-                    // Print the exact error from PHP to Logcat to help debug
+                    // Print the exact error to Logcat
                     val errorBody = response.errorBody()?.string() ?: "Unknown Server Error"
                     Log.e("API_ERROR", "Server Response: $errorBody")
 
-                    // Show a shortened version on the screen
                     val shortMsg = if (errorBody.length > 50) errorBody.take(50) + "..." else errorBody
                     Toast.makeText(this@LoginActivity, "Server Error: $shortMsg", Toast.LENGTH_LONG).show()
                 }
 
             } catch (e: Exception) {
-                // Catch network failures (No internet, Ngrok offline, etc)
                 Log.e("API_EXCEPTION", e.message.toString(), e)
                 Toast.makeText(this@LoginActivity, "Error: ${e.message}", Toast.LENGTH_LONG).show()
             } finally {

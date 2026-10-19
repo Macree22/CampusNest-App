@@ -1,7 +1,9 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
-    <style name="Base.Theme.CampusNestApp" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your dark theme here. -->
-        <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
-    </style>
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="primary">#818CF8</color> <!-- Lighter Indigo for dark mode -->
+    <color name="primary_light">#312E81</color>
+    <color name="background">#0F172A</color> <!-- Dark Slate -->
+    <color name="text_main">#F8FAFC</color> <!-- White text -->
+    <color name="text_sub">#94A3B8</color> <!-- Light gray text -->
+    <color name="white">#1E293B</color> <!-- Cards become dark slate -->
 </resources>

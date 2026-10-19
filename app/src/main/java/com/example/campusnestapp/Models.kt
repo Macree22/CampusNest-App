@@ -44,3 +44,24 @@ data class ApplicationResponse(
     val status: String,
     val data: List<UserApplication>
 )
+// --- Profile Models ---
+data class ProfileData(
+    val firstName: String,
+    val lastName: String,
+    val email: String,
+    val role: String,
+    val studentNumber: String? = null
+)
+
+data class ProfileResponse(
+    val status: String,
+    val data: ProfileData
+)
+
+
+data class UpdateProfileRequest(
+    val firstName: String,
+    val lastName: String,
+    val email: String,
+    val newPassword: String?
+)
