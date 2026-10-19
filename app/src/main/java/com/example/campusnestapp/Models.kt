@@ -1,10 +1,17 @@
 package com.example.campusnestapp
 
-// Login Models
+// --- Authentication Models ---
 data class LoginRequest(val email: String, val password: String)
-data class LoginResponse(val status: String, val token: String?, val role: String?, val name: String?, val id: Int?, val message: String?)
+data class LoginResponse(
+    val status: String,
+    val token: String?,
+    val role: String?,
+    val name: String?,
+    val id: Int?,
+    val message: String?
+)
 
-// Listing Models
+// --- Listing Models ---
 data class Listing(
     val listingID: Int,
     val title: String,
@@ -15,20 +22,25 @@ data class Listing(
     val imagePath: String,
     val amenities: String?
 )
+data class ListingResponse(val status: String, val data: List<Listing>)
 
-data class ListingResponse(
-    val status: String,
-    val data: List<Listing>
-)
-
-// Apply Models
-data class ApplyRequest(
-    val listingID: Int,
-    val moveInDate: String
-)
-
+// --- Application Models ---
+data class ApplyRequest(val listingID: Int, val moveInDate: String)
 data class BasicResponse(
     val status: String,
     val message: String,
     val reference: String? = null
+)
+
+data class UserApplication(
+    val applicationID: Int,
+    val applicationStatus: String,
+    val preferredMoveInDate: String,
+    val title: String,
+    val monthlyRent: Double,
+    val address: String
+)
+data class ApplicationResponse(
+    val status: String,
+    val data: List<UserApplication>
 )
