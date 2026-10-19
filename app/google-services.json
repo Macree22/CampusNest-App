@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "728484417746",
+    "project_id": "campusnest-da393",
+    "storage_bucket": "campusnest-da393.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:728484417746:android:82cebd4cea298ac7901d0b",
+        "android_client_info": {
+          "package_name": "com.example.campusnestapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "728484417746-qgrch8ohelh6fapbp9ahfdetif21me5t.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.campusnestapp",
+            "certificate_hash": "1d7ceafe6b523bb0cde88fbb88b6071495a1ed47"
+          }
+        },
+        {
+          "client_id": "728484417746-nme7onatppdcpup7i7i0vj78k1a4f1j4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC6yzCjFSiyUV7T6aviK11L8pf1j1yS1w0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "728484417746-nme7onatppdcpup7i7i0vj78k1a4f1j4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
