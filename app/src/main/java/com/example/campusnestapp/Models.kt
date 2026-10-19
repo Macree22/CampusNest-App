@@ -21,7 +21,7 @@ data class Listing(
     val roomType: String,
     val imagePath: String,
     val amenities: String?
-)
+) : java.io.Serializable
 data class ListingResponse(val status: String, val data: List<Listing>)
 
 // --- Application Models ---
@@ -40,6 +40,7 @@ data class UserApplication(
     val monthlyRent: Double,
     val address: String
 )
+
 data class ApplicationResponse(
     val status: String,
     val data: List<UserApplication>
@@ -52,16 +53,41 @@ data class ProfileData(
     val role: String,
     val studentNumber: String? = null
 )
-
+// --- Profile Models ---
 data class ProfileResponse(
     val status: String,
     val data: ProfileData
 )
 
-
+// --- Edit Profile Models ---
 data class UpdateProfileRequest(
     val firstName: String,
     val lastName: String,
     val email: String,
     val newPassword: String?
 )
+// --- Register Models ---
+data class RegisterRequest(
+    val firstName: String,
+    val lastName: String,
+    val email: String,
+    val password: String,
+    val studentNumber: String
+)
+
+// --- Pending Listings Models ---
+data class PendingListing(
+    val listingID: Int,
+    val title: String,
+    val address: String,
+    val city: String,
+    val monthlyRent: Double,
+    val roomType: String,
+    val firstName: String,
+    val lastName: String
+)
+data class PendingListingsResponse(
+    val status: String,
+    val data: List<PendingListing>
+)
+data class VerifyRequest(val listingID: Int)

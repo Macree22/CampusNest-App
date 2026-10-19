@@ -11,7 +11,8 @@ import com.bumptech.glide.Glide
 
 class ListingAdapter(
     private var listings: List<Listing>,
-    private val onApplyClick: (Listing, Button) -> Unit // Callback for button click
+    private val onApplyClick: (Listing, Button) -> Unit, // Callback for button click
+    private val onItemClick: (Listing) -> Unit // Callback for item click
 ) : RecyclerView.Adapter<ListingAdapter.ListingViewHolder>() {
 
     class ListingViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -45,6 +46,10 @@ class ListingAdapter(
         // Reset button state (in case of scrolling)
         holder.btnApply.isEnabled = true
         holder.btnApply.text = "Apply"
+
+        holder.itemView.setOnClickListener {
+            onItemClick(listing)
+        }
 
         holder.btnApply.setOnClickListener {
             // Pass the listing and the button to MainActivity

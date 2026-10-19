@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background"
@@ -114,6 +115,18 @@
             android:layout_marginTop="16dp"
             android:visibility="gone"
             android:indeterminateTint="@color/primary"/>
+
+        <!-- ADDED REGISTER LINK HERE -->
+        <TextView
+            android:id="@+id/tvGoToRegister"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Don't have an account? Register here"
+            android:textColor="@color/primary"
+            android:textStyle="bold"
+            android:layout_marginTop="24dp"
+            android:padding="8dp"
+            tools:ignore="HardcodedText" />
 
     </LinearLayout>
 </ScrollView>

@@ -39,9 +39,16 @@ class ListingsFragment : Fragment() {
         recyclerListings = view.findViewById(R.id.recyclerListings)
         progressBar = view.findViewById(R.id.progressBarListings)
 
-        adapter = ListingAdapter(emptyList()) { listing, button ->
-            applyForProperty(listing, button)
-        }
+        adapter = ListingAdapter(
+            emptyList(),
+            onApplyClick = { listing, button ->
+                applyForProperty(listing, button)
+            },
+            onItemClick = { listing ->
+                val intent = android.content.Intent(requireContext(), ListingDetailActivity::class.java)
+                intent.putExtra("LISTING_DATA", listing)
+                startActivity(intent)
+            })
 
         recyclerListings.layoutManager = LinearLayoutManager(requireContext())
         recyclerListings.adapter = adapter

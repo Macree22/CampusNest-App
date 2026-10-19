@@ -40,4 +40,19 @@ interface ApiService {
         @Header("Authorization") token: String,
         @Body request: UpdateProfileRequest
     ): Response<BasicResponse>
+
+    // 7. Register a new user
+    @POST("register.php")
+    suspend fun register(@Body request: RegisterRequest): Response<BasicResponse>
+
+    // 8. Fetch all pending listings for admin
+    @GET("admin_pending_listings.php")
+    suspend fun getPendingListings(@Header("Authorization") token: String): Response<PendingListingsResponse>
+
+    // 9. Verify a pending listing
+    @POST("admin_verify.php")
+    suspend fun verifyListing(
+        @Header("Authorization") token: String,
+        @Body request: VerifyRequest
+    ): Response<BasicResponse>
 }

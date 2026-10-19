@@ -1,5 +1,6 @@
 package com.example.campusnestapp
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -7,6 +8,7 @@ import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.ProgressBar
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
@@ -21,8 +23,8 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var btnLogin: Button
     private lateinit var progressBar: ProgressBar
 
+    @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
-        // 1. Apply Dark Mode setting BEFORE the UI loads
         val sharedPref = getSharedPreferences("CampusNestPrefs", Context.MODE_PRIVATE)
         if (sharedPref.getBoolean("IS_DARK_MODE", false)) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
@@ -33,19 +35,22 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
-        // 2. Link UI components
         etEmail = findViewById(R.id.etEmail)
         etPassword = findViewById(R.id.etPassword)
         btnLogin = findViewById(R.id.btnLogin)
         progressBar = findViewById(R.id.progressBar)
+        val tvGoToRegister = findViewById<TextView>(R.id.tvGoToRegister)
 
-        // 3. Check if the user is already logged in
         if (sharedPref.contains("API_TOKEN")) {
             goToMainActivity()
             return
         }
 
-        // 4. Set click listener
+        tvGoToRegister.setOnClickListener {
+            val intent = Intent(this, RegisterActivity::class.java)
+            startActivity(intent)
+        }
+
         btnLogin.setOnClickListener {
             val email = etEmail.text.toString().trim()
             val password = etPassword.text.toString().trim()
@@ -58,6 +63,7 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
+    @SuppressLint("SetTextI18n")
     private fun loginUser(email: String, password: String) {
         progressBar.visibility = View.VISIBLE
         btnLogin.isEnabled = false
@@ -68,34 +74,38 @@ class LoginActivity : AppCompatActivity() {
                 val request = LoginRequest(email, password)
                 val response = RetrofitClient.apiService.login(request)
 
-                if (response.isSuccessful && response.body()?.status == "success") {
-                    val body = response.body()!!
+                if (response.isSuccessful) {
+                    val body = response.body()
 
-                    // Save the token and user info
-                    val sharedPref = getSharedPreferences("CampusNestPrefs", Context.MODE_PRIVATE)
-                    sharedPref.edit().apply {
-                        putString("API_TOKEN", "Bearer ${body.token}")
-                        putString("USER_NAME", body.name)
-                        putString("USER_ROLE", body.role)
-                        putInt("USER_ID", body.id ?: 0)
-                        apply()
+                    if (body?.status == "success") {
+                        // SUCCESSFUL LOGIN
+                        val sharedPref = getSharedPreferences("CampusNestPrefs", Context.MODE_PRIVATE)
+                        sharedPref.edit().apply {
+                            putString("API_TOKEN", "Bearer ${body.token}")
+                            putString("USER_NAME", body.name)
+                            putString("USER_ROLE", body.role)
+                            putInt("USER_ID", body.id ?: 0)
+                            apply()
+                        }
+
+                        Toast.makeText(this@LoginActivity, "Welcome, ${body.name}", Toast.LENGTH_SHORT).show()
+                        goToMainActivity()
+                    } else {
+                        // FAILED LOGIN (Wrong Password)
+                        // This reads the actual error message from PHP!
+                        val errorMsg = body?.message ?: "Invalid email or password"
+                        Toast.makeText(this@LoginActivity, errorMsg, Toast.LENGTH_LONG).show()
                     }
-
-                    Toast.makeText(this@LoginActivity, "Welcome, ${body.name}", Toast.LENGTH_SHORT).show()
-                    goToMainActivity()
-
                 } else {
-                    // Print the exact error to Logcat
-                    val errorBody = response.errorBody()?.string() ?: "Unknown Server Error"
-                    Log.e("API_ERROR", "Server Response: $errorBody")
-
-                    val shortMsg = if (errorBody.length > 50) errorBody.take(50) + "..." else errorBody
-                    Toast.makeText(this@LoginActivity, "Server Error: $shortMsg", Toast.LENGTH_LONG).show()
+                    // SERVER ERROR (500, 404, etc)
+                    val errorBody = response.errorBody()?.string() ?: "Server Error: ${response.code()}"
+                    Log.e("API_ERROR", errorBody)
+                    Toast.makeText(this@LoginActivity, "Server Error", Toast.LENGTH_LONG).show()
                 }
 
             } catch (e: Exception) {
                 Log.e("API_EXCEPTION", e.message.toString(), e)
-                Toast.makeText(this@LoginActivity, "Error: ${e.message}", Toast.LENGTH_LONG).show()
+                Toast.makeText(this@LoginActivity, "Network Error: ${e.message}", Toast.LENGTH_LONG).show()
             } finally {
                 progressBar.visibility = View.GONE
                 btnLogin.isEnabled = true
