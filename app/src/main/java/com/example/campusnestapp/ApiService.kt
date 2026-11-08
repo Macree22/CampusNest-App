@@ -17,7 +17,6 @@ interface ApiService {
     suspend fun getListings(): Response<ListingResponse>
 
     // 3. Submit an application for a property
-    // Notice the @Header("Authorization") - this sends the Bearer token we saved during login
     @POST("apply.php")
     suspend fun applyForListing(
         @Header("Authorization") token: String,
@@ -30,26 +29,40 @@ interface ApiService {
         @Header("Authorization") token: String
     ): Response<ApplicationResponse>
 
-    // 5. Fetch the logged-in student's profile
+    // 5. Accept lease agreement (API path)
+    @POST("accept_lease.php")
+    suspend fun acceptLease(
+        @Header("Authorization") token: String,
+        @Body request: AcceptLeaseRequest
+    ): Response<BasicResponse>
+
+    // 5b. Accept lease agreement (Root fallback path)
+    @POST("/accept_lease.php")
+    suspend fun acceptLeaseRoot(
+        @Header("Authorization") token: String,
+        @Body request: AcceptLeaseRequest
+    ): Response<BasicResponse>
+
+    // 6. Fetch the logged-in student's profile
     @GET("profile.php")
     suspend fun getProfile(@Header("Authorization") token: String): Response<ProfileResponse>
 
-    // 6. Update the logged-in student's profile
+    // 7. Update the logged-in student's profile
     @POST("update_profile.php")
     suspend fun updateProfile(
         @Header("Authorization") token: String,
         @Body request: UpdateProfileRequest
     ): Response<BasicResponse>
 
-    // 7. Register a new user
+    // 8. Register a new user
     @POST("register.php")
     suspend fun register(@Body request: RegisterRequest): Response<BasicResponse>
 
-    // 8. Fetch all pending listings for admin
+    // 9. Fetch all pending listings for admin
     @GET("admin_pending_listings.php")
     suspend fun getPendingListings(@Header("Authorization") token: String): Response<PendingListingsResponse>
 
-    // 9. Verify a pending listing
+    // 10. Verify a pending listing
     @POST("admin_verify.php")
     suspend fun verifyListing(
         @Header("Authorization") token: String,

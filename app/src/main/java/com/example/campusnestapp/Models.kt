@@ -1,5 +1,7 @@
 package com.example.campusnestapp
 
+import com.google.gson.annotations.SerializedName
+
 // --- Authentication Models ---
 data class LoginRequest(val email: String, val password: String)
 data class LoginResponse(
@@ -32,19 +34,46 @@ data class BasicResponse(
     val reference: String? = null
 )
 
+data class AcceptLeaseRequest(
+    @SerializedName("bookingID", alternate = ["booking_id", "bookingId"])
+    val bookingID: Int
+)
+
 data class UserApplication(
+    @SerializedName("applicationID", alternate = ["application_id", "applicationId"])
     val applicationID: Int,
+
+    @SerializedName("applicationStatus", alternate = ["application_status", "status"])
     val applicationStatus: String,
+
+    @SerializedName("preferredMoveInDate", alternate = ["preferred_move_in_date", "move_in_date"])
     val preferredMoveInDate: String,
+
     val title: String,
     val monthlyRent: Double,
-    val address: String
+    val address: String,
+
+    @SerializedName("bookingID", alternate = ["booking_id", "bookingId"])
+    val bookingID: Int? = null,
+
+    @SerializedName("studentAccepted", alternate = ["student_accepted", "accepted"])
+    val studentAccepted: Int? = null,
+
+    @SerializedName("durationMonths", alternate = ["duration_months"])
+    val durationMonths: Int? = null,
+
+    @SerializedName("totalContractValue", alternate = ["total_contract_value"])
+    val totalContractValue: Double? = null,
+
+    @SerializedName("paymentID", alternate = ["payment_id", "paymentId"])
+    val paymentID: Int? = null
 )
 
 data class ApplicationResponse(
     val status: String,
     val data: List<UserApplication>
 )
+
 // --- Profile Models ---
 data class ProfileData(
     val firstName: String,
@@ -53,7 +82,6 @@ data class ProfileData(
     val role: String,
     val studentNumber: String? = null
 )
-// --- Profile Models ---
 data class ProfileResponse(
     val status: String,
     val data: ProfileData
@@ -66,6 +94,7 @@ data class UpdateProfileRequest(
     val email: String,
     val newPassword: String?
 )
+
 // --- Register Models ---
 data class RegisterRequest(
     val firstName: String,
